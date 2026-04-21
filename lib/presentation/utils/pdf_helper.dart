@@ -138,16 +138,28 @@ class PdfHelper {
                 ),
                 // Data Rows
                 ...student.subjects.map(
-                  (s) => pw.TableRow(
-                    children: [
-                      _tableCell(s.grade, isGrade: true),
-                      _tableCell(s.percentage),
-                      _tableCell(s.totalScore),
-                      _tableCell(s.exam),
-                      _tableCell(s.attendance),
-                      _tableCell(s.name, align: pw.TextAlign.right),
-                    ],
-                  ),
+                  (s) {
+                    // Add ZWNJ to fix isolated 'ي' bug in pdf package
+                    String fixedName = s.name;
+                    if (fixedName.endsWith('ي')) {
+                       fixedName += '\u200C';
+                    } else if (fixedName.contains('العقيدي')) {
+                       fixedName = fixedName.replaceAll('العقيدي', 'العقيدي\u200C');
+                    } else if (fixedName.contains('التربوي')) {
+                       fixedName = fixedName.replaceAll('التربوي', 'التربوي\u200C');
+                    }
+
+                    return pw.TableRow(
+                      children: [
+                        _tableCell(s.grade, isGrade: true),
+                        _tableCell(s.percentage),
+                        _tableCell(s.totalScore),
+                        _tableCell(s.exam),
+                        _tableCell(s.attendance),
+                        _tableCell(fixedName, align: pw.TextAlign.right),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),
