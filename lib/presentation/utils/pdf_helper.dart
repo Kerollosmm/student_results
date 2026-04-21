@@ -37,17 +37,15 @@ class PdfHelper {
                   crossAxisAlignment: pw.CrossAxisAlignment.end,
                   children: [
                     pw.Text(
-                      'نتائج الطلاب ',
+                      'نتائج الطلاب',
                       style: pw.TextStyle(
                         fontSize: 24,
                         fontWeight: pw.FontWeight.bold,
                       ),
-                      textDirection: pw.TextDirection.rtl,
                     ),
                     pw.Text(
-                      'إعداد خدام - مدرسة الكاروز ',
+                      'إعداد خدام - مدرسة الكاروز',
                       style: pw.TextStyle(fontSize: 16),
-                      textDirection: pw.TextDirection.rtl,
                     ),
                   ],
                 ),
@@ -71,7 +69,7 @@ class PdfHelper {
                     children: [
                       pw.Expanded(
                         child: pw.Text(
-                          'اسم الطالب: ${student.name} ',
+                          'اسم الطالب: ${student.name}',
                           style: pw.TextStyle(
                             fontSize: 18,
                             fontWeight: pw.FontWeight.bold,
@@ -81,7 +79,7 @@ class PdfHelper {
                       ),
                       pw.SizedBox(width: 10),
                       pw.Text(
-                        'رقم الكارنيه: ${student.id} ',
+                        'رقم الكارنيه: ${student.id}',
                         style: const pw.TextStyle(fontSize: 16),
                         textDirection: pw.TextDirection.rtl,
                       ),
@@ -92,7 +90,7 @@ class PdfHelper {
                     children: [
                       pw.Expanded(
                         child: pw.Text(
-                          'المرحلة الدراسية: ${student.stage} ',
+                          'المرحلة الدراسية: ${student.stage}',
                           style: const pw.TextStyle(fontSize: 16),
                           textDirection: pw.TextDirection.rtl,
                         ),
@@ -106,9 +104,8 @@ class PdfHelper {
 
             // Table Header
             pw.Text(
-              'تفاصيل المواد ',
+              'تفاصيل المواد',
               style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
-              textDirection: pw.TextDirection.rtl,
             ),
             pw.SizedBox(height: 10),
 
@@ -121,7 +118,7 @@ class PdfHelper {
                 2: const pw.FlexColumnWidth(1),
                 3: const pw.FlexColumnWidth(1),
                 4: const pw.FlexColumnWidth(1),
-                5: const pw.FlexColumnWidth(7), // Further increased width
+                5: const pw.FlexColumnWidth(6), // Increased significantly to prevent truncation
               },
               children: [
                 // Header Row
@@ -138,28 +135,16 @@ class PdfHelper {
                 ),
                 // Data Rows
                 ...student.subjects.map(
-                  (s) {
-                    // Add ZWNJ to fix isolated 'ي' bug in pdf package
-                    String fixedName = s.name;
-                    if (fixedName.endsWith('ي')) {
-                       fixedName += '\u200C';
-                    } else if (fixedName.contains('العقيدي')) {
-                       fixedName = fixedName.replaceAll('العقيدي', 'العقيدي\u200C');
-                    } else if (fixedName.contains('التربوي')) {
-                       fixedName = fixedName.replaceAll('التربوي', 'التربوي\u200C');
-                    }
-
-                    return pw.TableRow(
-                      children: [
-                        _tableCell(s.grade, isGrade: true),
-                        _tableCell(s.percentage),
-                        _tableCell(s.totalScore),
-                        _tableCell(s.exam),
-                        _tableCell(s.attendance),
-                        _tableCell(fixedName, align: pw.TextAlign.right),
-                      ],
-                    );
-                  },
+                  (s) => pw.TableRow(
+                    children: [
+                      _tableCell(s.grade, isGrade: true),
+                      _tableCell(s.percentage),
+                      _tableCell(s.totalScore),
+                      _tableCell(s.exam),
+                      _tableCell(s.attendance),
+                      _tableCell(s.name, align: pw.TextAlign.right),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -185,22 +170,20 @@ class PdfHelper {
                     crossAxisAlignment: pw.CrossAxisAlignment.end,
                     children: [
                       pw.Text(
-                        'النتيجة النهائية: ${student.totalScore} % ',
+                        'النتيجة النهائية: ${student.totalScore} %',
                         style: pw.TextStyle(
                           fontSize: 18,
                           fontWeight: pw.FontWeight.bold,
                         ),
-                        textDirection: pw.TextDirection.rtl,
                       ),
                       pw.SizedBox(height: 5),
                       pw.Text(
-                        'التقدير العام: ${student.totalGrade} ',
+                        'التقدير العام: ${student.totalGrade}',
                         style: pw.TextStyle(
                           fontSize: 18,
                           fontWeight: pw.FontWeight.bold,
                           color: PdfColors.blue900,
                         ),
-                        textDirection: pw.TextDirection.rtl,
                       ),
                     ],
                   ),
@@ -223,10 +206,9 @@ class PdfHelper {
     return pw.Padding(
       padding: const pw.EdgeInsets.all(5),
       child: pw.Text(
-        '$text ', // Added trailing space to fix isolated Arabic letter rendering bug
+        text,
         style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
         textAlign: pw.TextAlign.center,
-        textDirection: pw.TextDirection.rtl,
       ),
     );
   }
@@ -258,7 +240,7 @@ class PdfHelper {
           ? pw.Alignment.centerRight
           : pw.Alignment.center,
       child: pw.Text(
-        '$text ', // Added trailing space to fix isolated 'ي' rendering bug
+        text,
         textAlign: align,
         textDirection: pw.TextDirection.rtl,
         style: pw.TextStyle(
