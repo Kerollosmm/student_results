@@ -118,7 +118,7 @@ class PdfHelper {
                 2: const pw.FlexColumnWidth(1),
                 3: const pw.FlexColumnWidth(1),
                 4: const pw.FlexColumnWidth(1),
-                5: const pw.FlexColumnWidth(4.5),
+                5: const pw.FlexColumnWidth(6), // Increased significantly to prevent truncation
               },
               children: [
                 // Header Row
@@ -235,13 +235,14 @@ class PdfHelper {
 
     return pw.Container(
       color: bgColor,
-      padding: const pw.EdgeInsets.all(5),
+      padding: const pw.EdgeInsets.symmetric(horizontal: 2, vertical: 5),
       alignment: align == pw.TextAlign.right
           ? pw.Alignment.centerRight
           : pw.Alignment.center,
       child: pw.Text(
         text,
         textAlign: align,
+        textDirection: pw.TextDirection.rtl,
         style: pw.TextStyle(
           fontSize: 10,
           color: textColor,
