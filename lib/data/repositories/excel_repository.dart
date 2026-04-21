@@ -92,7 +92,7 @@ class ExcelRepository {
         final stage = cell(row, 3);
 
         final subjects = [
-          parseSubject(row, 'لاهوت العقيدي', 4),
+          parseSubject(row, 'لاهوت عقيدي', 4),
           parseSubject(row, 'التربوي', 9),
           parseSubject(row, 'لاهوت الطقسي', 14),
           parseSubject(row, 'العهد الجديد', 19),

@@ -8,9 +8,9 @@ class PdfHelper {
   static Future<void> generateAndPrint(StudentResult student) async {
     final pdf = pw.Document();
 
-    // Load Arabic font
-    final arabicFont = await PdfGoogleFonts.cairoRegular();
-    final arabicFontBold = await PdfGoogleFonts.cairoBold();
+    // Load Arabic font (using Almarai instead of Cairo to prevent clipping of final 'ي')
+    final arabicFont = await PdfGoogleFonts.almaraiRegular();
+    final arabicFontBold = await PdfGoogleFonts.almaraiBold();
 
     // Load logo if available
     pw.MemoryImage? logo;
