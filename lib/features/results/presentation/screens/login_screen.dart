@@ -38,7 +38,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.surfaceParchment,
+      backgroundColor: AppTheme.primaryGold,
       body: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           state.maybeWhen(
@@ -77,10 +77,10 @@ class _LoginViewState extends State<LoginView> {
                           height: 120,
                           errorBuilder: (context, error, stackTrace) =>
                               const Icon(
-                            Icons.church,
-                            size: 80,
-                            color: AppTheme.primaryGold,
-                          ),
+                                Icons.church,
+                                size: 80,
+                                color: AppTheme.primaryGold,
+                              ),
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -125,8 +125,8 @@ class _LoginViewState extends State<LoginView> {
                             loading: () => null,
                             orElse: () => () {
                               context.read<LoginCubit>().login(
-                                    _cardIdController.text,
-                                  );
+                                _cardIdController.text,
+                              );
                             },
                           ),
                           style: ElevatedButton.styleFrom(
