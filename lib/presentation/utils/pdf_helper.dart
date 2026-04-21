@@ -105,36 +105,36 @@ class PdfHelper {
             pw.Table(
               border: pw.TableBorder.all(color: PdfColors.grey400),
               columnWidths: {
-                0: const pw.FlexColumnWidth(3),
+                0: const pw.FlexColumnWidth(2),
                 1: const pw.FlexColumnWidth(1),
                 2: const pw.FlexColumnWidth(1),
                 3: const pw.FlexColumnWidth(1),
                 4: const pw.FlexColumnWidth(1),
-                5: const pw.FlexColumnWidth(2),
+                5: const pw.FlexColumnWidth(3),
               },
               children: [
                 // Header Row
                 pw.TableRow(
                   decoration: const pw.BoxDecoration(color: PdfColors.grey200),
                   children: [
-                    _tableHeader('المادة'),
-                    _tableHeader('حضور'),
-                    _tableHeader('إمتحان'),
-                    _tableHeader('إجمالي'),
-                    _tableHeader('نسبة %'),
                     _tableHeader('التقدير'),
+                    _tableHeader('نسبة %'),
+                    _tableHeader('إجمالي'),
+                    _tableHeader('إمتحان'),
+                    _tableHeader('حضور'),
+                    _tableHeader('المادة'),
                   ],
                 ),
                 // Data Rows
                 ...student.subjects.map(
                   (s) => pw.TableRow(
                     children: [
-                      _tableCell(s.name, align: pw.TextAlign.right),
-                      _tableCell(s.attendance),
-                      _tableCell(s.exam),
-                      _tableCell(s.totalScore),
-                      _tableCell(s.percentage),
                       _tableCell(s.grade, isGrade: true),
+                      _tableCell(s.percentage),
+                      _tableCell(s.totalScore),
+                      _tableCell(s.exam),
+                      _tableCell(s.attendance),
+                      _tableCell(s.name, align: pw.TextAlign.right),
                     ],
                   ),
                 ),

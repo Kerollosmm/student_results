@@ -1,17 +1,29 @@
-# e3dad_5odam
+# منظومة نتائج مدرسة الكاروز لإعداد الخدام
 
-A new Flutter project.
+تطبيق فلاتر (Flutter) مخصص لعرض نتائج الطلاب الأكاديمية لمدرسة الكاروز لإعداد الخدام. يتميز التطبيق بالعمل الكامل بدون اتصال بالإنترنت (Offline) وباللغة العربية (RTL).
 
-## Getting Started
+## المميزات
+- **تسجيل دخول برقم الكارنيه**: يمكن للطالب الوصول لنتيجته بمجرد إدخال رقم الكارنيه الخاص به.
+- **عرض النتائج بالتفصيل**: يظهر التطبيق درجات الحضور، الامتحان، الإجمالي، والتقدير لكل مادة.
+- **تصدير النتائج (PDF)**: إمكانية طباعة أو حفظ النتيجة كملف PDF بتصميم احترافي ومنسق.
+- **تصميم عصري (Material 3)**: واجهة مستخدم مريحة للعين تدعم جميع أحجام الشاشات (موبايل، تابلت، ويب).
+- **قاعدة بيانات محلية (CSV)**: يتم تحميل البيانات من ملف CSV مدمج داخل التطبيق لضمان السرعة والخصوصية.
 
-This project is a starting point for a Flutter application.
+## التقنيات المستخدمة
+- **الإطار البرمجي**: [Flutter](https://flutter.dev)
+- **إدارة الحالة**: [flutter_bloc](https://pub.dev/packages/flutter_bloc) (Cubit)
+- **التنقل**: [go_router](https://pub.dev/packages/go_router)
+- **حقن التبعيات**: [get_it](https://pub.dev/packages/get_it)
+- **معالجة البيانات**: [csv](https://pub.dev/packages/csv)
+- **توليد ملفات PDF**: [pdf](https://pub.dev/packages/pdf) & [printing](https://pub.dev/packages/printing)
 
-A few resources to get you started if this is your first Flutter project:
+## بدء التشغيل
+للمطورين الراغبين في تشغيل المشروع محلياً:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+1. تأكد من تثبيت Flutter SDK.
+2. قم بتحميل المشروع: `git clone https://github.com/Kerollosmm/student_results.git`
+3. قم بتنزيل الحزم المطلوبة: `flutter pub get`
+4. تشغيل المشروع: `flutter run`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+🤖 تم التطوير بواسطة Kerollos و Gemini.
