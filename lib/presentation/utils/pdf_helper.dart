@@ -22,212 +22,167 @@ class PdfHelper {
     }
 
     pdf.addPage(
-      pw.Page(
+      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         theme: pw.ThemeData.withFont(base: arabicFont, bold: arabicFontBold),
+        textDirection: pw.TextDirection.rtl,
         build: (pw.Context context) {
-          return pw.Container(
-            padding: const pw.EdgeInsets.all(30),
-            decoration: pw.BoxDecoration(
-              border: pw.Border.all(color: PdfColors.amber800, width: 2),
+          return [
+            // Header
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                if (logo != null) pw.Image(logo, width: 80, height: 80),
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.end,
+                  children: [
+                    pw.Text(
+                      'نتائج الطلاب',
+                      style: pw.TextStyle(
+                        fontSize: 24,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.Text(
+                      'إعداد خدام - مدرسة الكاروز',
+                      style: pw.TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            child: pw.Container(
-              padding: const pw.EdgeInsets.all(20),
+            pw.SizedBox(height: 20),
+            pw.Divider(),
+            pw.SizedBox(height: 20),
+
+            // Student Info
+            pw.Container(
+              padding: const pw.EdgeInsets.all(15),
               decoration: pw.BoxDecoration(
-                border: pw.Border.all(color: PdfColors.amber400, width: 1),
+                border: pw.Border.all(color: PdfColors.grey300),
+                borderRadius: const pw.BorderRadius.all(pw.Radius.circular(10)),
               ),
               child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.center,
                 children: [
-                  // Logo and Header
-                  if (logo != null) pw.Image(logo, width: 90, height: 90),
-                  pw.SizedBox(height: 15),
-                  pw.Text(
-                    'مدرسة الكاروز لإعداد الخدام',
-                    style: pw.TextStyle(
-                      fontSize: 26,
-                      fontWeight: pw.FontWeight.bold,
-                      color: PdfColors.amber900,
-                    ),
-                  ),
-                  pw.Text(
-                    'كنيسة القديس مارمرقس الرسول - كليوباترا',
-                    style: const pw.TextStyle(fontSize: 14, color: PdfColors.grey700),
-                  ),
-                  pw.SizedBox(height: 30),
-                  
-                  pw.Text(
-                    'بيان درجات أكاديمي',
-                    style: pw.TextStyle(
-                      fontSize: 22,
-                      fontWeight: pw.FontWeight.bold,
-                      decoration: pw.TextDecoration.underline,
-                    ),
-                  ),
-                  pw.SizedBox(height: 40),
-
-                  // Student Info Box
-                  pw.Container(
-                    width: double.infinity,
-                    padding: const pw.EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                    decoration: pw.BoxDecoration(
-                      color: PdfColors.amber50,
-                      borderRadius: const pw.BorderRadius.all(pw.Radius.circular(15)),
-                    ),
-                    child: pw.Column(
-                      children: [
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Expanded(
-                              child: pw.Text(
-                                'الاسم: ${student.name}',
-                                style: pw.TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: pw.FontWeight.bold,
-                                  color: PdfColors.black,
-                                ),
-                                textDirection: pw.TextDirection.rtl,
-                              ),
-                            ),
-                            pw.SizedBox(width: 20),
-                            pw.Text(
-                              'رقم الكارنيه: ${student.id}',
-                              style: const pw.TextStyle(fontSize: 16),
-                              textDirection: pw.TextDirection.rtl,
-                            ),
-                          ],
-                        ),
-                        pw.SizedBox(height: 15),
-                        pw.Row(
-                          children: [
-                            pw.Expanded(
-                              child: pw.Text(
-                                'المرحلة الدراسية: ${student.stage}',
-                                style: const pw.TextStyle(fontSize: 16),
-                                textDirection: pw.TextDirection.rtl,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.SizedBox(height: 40),
-
-                  // Table Header
-                  pw.Row(
-                    mainAxisAlignment: pw.MainAxisAlignment.end,
-                    children: [
-                      pw.Text(
-                        'تفاصيل التقييم الأكاديمي',
-                        style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  pw.SizedBox(height: 15),
-
-                  // Table
-                  pw.Table(
-                    border: pw.TableBorder.all(color: PdfColors.amber200),
-                    columnWidths: {
-                      0: const pw.FlexColumnWidth(2),
-                      1: const pw.FlexColumnWidth(1.2),
-                      2: const pw.FlexColumnWidth(1),
-                      3: const pw.FlexColumnWidth(1),
-                      4: const pw.FlexColumnWidth(1),
-                      5: const pw.FlexColumnWidth(4.5),
-                    },
-                    children: [
-                      pw.TableRow(
-                        decoration: const pw.BoxDecoration(color: PdfColors.amber100),
-                        children: [
-                          _tableHeader('التقدير'),
-                          _tableHeader('نسبة %'),
-                          _tableHeader('إجمالي'),
-                          _tableHeader('إمتحان'),
-                          _tableHeader('حضور'),
-                          _tableHeader('المادة'),
-                        ],
-                      ),
-                      ...student.subjects.map(
-                        (s) => pw.TableRow(
-                          children: [
-                            _tableCell(s.grade, isGrade: true),
-                            _tableCell(s.percentage),
-                            _tableCell(s.totalScore),
-                            _tableCell(s.exam),
-                            _tableCell(s.attendance),
-                            _tableCell(s.name, align: pw.TextAlign.right),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  pw.SizedBox(height: 40),
-
-                  // Result Footer
                   pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                     children: [
-                      // Official stamp placeholder
-                      pw.Column(
-                        children: [
-                          pw.Text('ختم المدرسة', style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey500)),
-                          pw.SizedBox(height: 50),
-                        ],
-                      ),
-                      
-                      // Overall result box
-                      pw.Container(
-                        padding: const pw.EdgeInsets.all(20),
-                        decoration: pw.BoxDecoration(
-                          color: PdfColors.amber800,
-                          borderRadius: const pw.BorderRadius.all(pw.Radius.circular(12)),
+                      pw.Text(
+                        'اسم الطالب: ${student.name}',
+                        style: pw.TextStyle(
+                          fontSize: 18,
+                          fontWeight: pw.FontWeight.bold,
                         ),
-                        child: pw.Column(
-                          crossAxisAlignment: pw.CrossAxisAlignment.end,
-                          children: [
-                            pw.Text(
-                              'النتيجة النهائية: ${student.totalScore}%',
-                              style: pw.TextStyle(
-                                fontSize: 20,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColors.white,
-                              ),
-                            ),
-                            pw.SizedBox(height: 8),
-                            pw.Text(
-                              'التقدير العام: ${student.totalGrade}',
-                              style: pw.TextStyle(
-                                fontSize: 22,
-                                fontWeight: pw.FontWeight.bold,
-                                color: PdfColors.white,
-                              ),
-                            ),
-                          ],
+                      ),
+                      pw.Text(
+                        'رقم الكارنيه: ${student.id}',
+                        style: const pw.TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  pw.SizedBox(height: 10),
+                  pw.Row(
+                    children: [
+                      pw.Text(
+                        'المرحلة الدراسية: ${student.stage}',
+                        style: const pw.TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            pw.SizedBox(height: 20),
+
+            // Table Header
+            pw.Text(
+              'تفاصيل المواد',
+              style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 10),
+
+            // Table
+            pw.Table(
+              border: pw.TableBorder.all(color: PdfColors.grey400),
+              columnWidths: {
+                0: const pw.FlexColumnWidth(2),
+                1: const pw.FlexColumnWidth(1),
+                2: const pw.FlexColumnWidth(1),
+                3: const pw.FlexColumnWidth(1),
+                4: const pw.FlexColumnWidth(1),
+                5: const pw.FlexColumnWidth(3),
+              },
+              children: [
+                // Header Row
+                pw.TableRow(
+                  decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+                  children: [
+                    _tableHeader('التقدير'),
+                    _tableHeader('نسبة %'),
+                    _tableHeader('إجمالي'),
+                    _tableHeader('إمتحان'),
+                    _tableHeader('حضور'),
+                    _tableHeader('المادة'),
+                  ],
+                ),
+                // Data Rows
+                ...student.subjects.map(
+                  (s) => pw.TableRow(
+                    children: [
+                      _tableCell(s.grade, isGrade: true),
+                      _tableCell(s.percentage),
+                      _tableCell(s.totalScore),
+                      _tableCell(s.exam),
+                      _tableCell(s.attendance),
+                      _tableCell(s.name, align: pw.TextAlign.right),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            pw.SizedBox(height: 30),
+
+            // Footer / Total
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.end,
+              children: [
+                pw.Container(
+                  padding: const pw.EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  decoration: pw.BoxDecoration(
+                    color: PdfColors.grey100,
+                    border: pw.Border.all(color: PdfColors.grey400),
+                    borderRadius: const pw.BorderRadius.all(
+                      pw.Radius.circular(5),
+                    ),
+                  ),
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.end,
+                    children: [
+                      pw.Text(
+                        'النتيجة النهائية: ${student.totalScore} %',
+                        style: pw.TextStyle(
+                          fontSize: 18,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      pw.SizedBox(height: 5),
+                      pw.Text(
+                        'التقدير العام: ${student.totalGrade}',
+                        style: pw.TextStyle(
+                          fontSize: 18,
+                          fontWeight: pw.FontWeight.bold,
+                          color: PdfColors.blue900,
                         ),
                       ),
                     ],
                   ),
-                  
-                  pw.Spacer(),
-                  
-                  // Encouraging message
-                  pw.Text(
-                    'مع تمنياتنا بدوام التوفيق والنجاح في خدمة كنيستنا المقدسة',
-                    style: pw.TextStyle(
-                      fontSize: 14,
-                      fontWeight: pw.FontWeight.normal,
-                      fontStyle: pw.FontStyle.italic,
-                      color: PdfColors.grey800,
-                    ),
-                  ),
-                  pw.SizedBox(height: 10),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
+          ];
         },
       ),
     );
