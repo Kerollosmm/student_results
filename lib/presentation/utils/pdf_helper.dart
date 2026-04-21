@@ -44,7 +44,7 @@ class PdfHelper {
                       ),
                     ),
                     pw.Text(
-                      'إعداد خدام - مدرسة الكروز',
+                      'إعداد خدام - مدرسة الكاروز',
                       style: pw.TextStyle(fontSize: 16),
                     ),
                   ],
