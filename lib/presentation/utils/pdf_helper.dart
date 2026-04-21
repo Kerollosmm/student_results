@@ -67,25 +67,33 @@ class PdfHelper {
                   pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                     children: [
-                      pw.Text(
-                        'اسم الطالب: ${student.name}',
-                        style: pw.TextStyle(
-                          fontSize: 18,
-                          fontWeight: pw.FontWeight.bold,
+                      pw.Expanded(
+                        child: pw.Text(
+                          'اسم الطالب: ${student.name}',
+                          style: pw.TextStyle(
+                            fontSize: 18,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                          textDirection: pw.TextDirection.rtl,
                         ),
                       ),
+                      pw.SizedBox(width: 10),
                       pw.Text(
                         'رقم الكارنيه: ${student.id}',
                         style: const pw.TextStyle(fontSize: 16),
+                        textDirection: pw.TextDirection.rtl,
                       ),
                     ],
                   ),
                   pw.SizedBox(height: 10),
                   pw.Row(
                     children: [
-                      pw.Text(
-                        'المرحلة الدراسية: ${student.stage}',
-                        style: const pw.TextStyle(fontSize: 16),
+                      pw.Expanded(
+                        child: pw.Text(
+                          'المرحلة الدراسية: ${student.stage}',
+                          style: const pw.TextStyle(fontSize: 16),
+                          textDirection: pw.TextDirection.rtl,
+                        ),
                       ),
                     ],
                   ),
@@ -106,11 +114,11 @@ class PdfHelper {
               border: pw.TableBorder.all(color: PdfColors.grey400),
               columnWidths: {
                 0: const pw.FlexColumnWidth(2),
-                1: const pw.FlexColumnWidth(1),
+                1: const pw.FlexColumnWidth(1.2),
                 2: const pw.FlexColumnWidth(1),
                 3: const pw.FlexColumnWidth(1),
                 4: const pw.FlexColumnWidth(1),
-                5: const pw.FlexColumnWidth(3),
+                5: const pw.FlexColumnWidth(4.5),
               },
               children: [
                 // Header Row
