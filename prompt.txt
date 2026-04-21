@@ -1,0 +1,149 @@
+You are working inside an existing Flutter project named `e3dad_5odam`.
+
+I want you to help me complete and polish this app using the CURRENT local architecture only.
+
+## Project Context
+This is a lightweight Flutter web/mobile application for displaying student results for "إعداد خدام".
+
+### Core mechanism
+- The app is NOT using Firebase Auth, Firestore, SQL, or any backend API.
+- The app works as a local search engine over an Excel file.
+- It reads `assets/result_3.xlsx` using Flutter `rootBundle` and the `excel` package.
+
+### Current workflow
+1. The user enters their Student ID (رقم الكارنيه) and selects their stage in `login_page.dart`.
+2. In `result_page.dart`, the app loads `assets/result_3.xlsx`.
+3. It selects the correct sheet (`Sheet1` or `Sheet2`).
+4. It searches the second column, which must be Column B (index 1), for the Student ID.
+5. If found, it maps the row values against the headers in Row 1 (index 0) and displays the result.
+
+## Tech Stack
+- Flutter
+- excel
+- flutter/services.dart for rootBundle
+- screenshot
+- share_plus
+- cross_file
+
+## Assets
+- `assets/logo.jpeg`
+- `assets/result_3.xlsx`
+
+## Strict Rules
+- Do NOT suggest Firebase, Firestore, Supabase, REST APIs, or any backend.
+- Do NOT change the app to use authentication.
+- Keep the local `.xlsx` approach.
+- All user-facing UI text must remain in Arabic.
+- The UI must support RTL properly.
+- Focus only on:
+  1. local Excel parsing,
+  2. Student ID lookup,
+  3. error handling,
+  4. screenshot/download/share feature,
+  5. optional clean modern RTL UI improvements.
+
+## Required Functional Requirements
+
+### 1) Excel assumptions
+The file must be a strict cleaned `.xlsx` file named `result_3.xlsx` with:
+- headers flattened into Row 1 only (index 0),
+- no merged cells,
+- Student ID placed in Column B exactly (index 1).
+
+Do NOT build a backend alternative.
+Instead, make the code robust against malformed or missing Excel data and clearly document the assumptions in code comments where necessary.
+
+### 2) Search and validation
+Improve the search flow so that:
+- empty Student ID shows a friendly Arabic validation message,
+- invalid or non-existing Student ID shows a clear Arabic error state,
+- missing sheet or empty Excel file is handled gracefully,
+- duplicate Student IDs are handled safely,
+- stage-to-sheet mapping is explicit and easy to maintain.
+
+### 3) Screenshot / share / download
+Implement this in `result_page.dart`:
+- Wrap the displayed result content in a `Screenshot` widget.
+- Add a Floating Action Button only when results are successfully loaded.
+- Capture the result view as `Uint8List`.
+- Support sharing or downloading using `share_plus` and `cross_file`.
+- Make it work cleanly for Flutter web and mobile as much as possible with the current package setup.
+- If platform-specific handling is needed, implement it carefully without changing app architecture.
+
+### 4) UI/UX
+Polish the app with a clean RTL Arabic interface:
+- simple and modern design,
+- readable typography,
+- clear result cards,
+- proper spacing,
+- logo usage if appropriate,
+- friendly empty, loading, and error states.
+
+## What I want from you
+Work in this order:
+
+### Step 1: Inspect the codebase
+First, inspect the existing Flutter project structure and identify the relevant files, especially:
+- `pubspec.yaml`
+- `lib/login_page.dart`
+- `lib/result_page.dart`
+- any model/helper/widget files related to results or stage selection
+
+Then summarize:
+- what already exists,
+- what is missing,
+- what should be changed.
+
+### Step 2: Plan first
+Before editing code, give me a concrete implementation plan with:
+- files to modify,
+- new variables/controllers/classes if needed,
+- package checks,
+- platform considerations for web/mobile sharing/downloading,
+- edge cases to handle.
+
+Do NOT start coding until I approve the plan.
+
+### Step 3: Implement after approval
+After I approve:
+- edit the code directly,
+- keep the architecture simple,
+- avoid unnecessary abstraction,
+- preserve the local Excel workflow.
+
+### Step 4: Verify
+After implementation:
+- show me exactly what changed,
+- explain how to test login/search/result lookup,
+- explain how to test screenshot/share/download,
+- mention any limitations for Flutter web vs mobile.
+
+## Coding standards
+- Keep code clean and production-friendly.
+- Prefer small helper methods over large messy widgets.
+- Keep Arabic labels/messages consistent.
+- Do not break the existing flow if a simpler patch is possible.
+- If you need to refactor, keep it minimal and justified.
+- Use null safety correctly.
+- Make sure `pubspec.yaml` includes required assets and packages.
+
+## Arabic UI requirements
+All visible labels, buttons, errors, and helper text must be Arabic and RTL-friendly.
+Examples of areas to localize:
+- Student ID field
+- stage selection
+- search button
+- loading state
+- not found state
+- invalid input state
+- screenshot/share/download action text
+- retry text
+
+## Deliverables
+When implementation is done, provide:
+1. a summary of changes,
+2. the updated files,
+3. testing steps,
+4. any notes about the Excel file formatting assumptions.
+
+Start now with Step 1 only: inspect the project and summarize the current state before proposing the implementation plan.
