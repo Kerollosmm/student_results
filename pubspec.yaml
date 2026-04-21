@@ -35,6 +35,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   excel: ^4.0.6
+  csv: ^5.1.1
   flutter_bloc: ^8.1.6
   freezed_annotation: ^2.4.4
   get_it: ^7.7.0
@@ -45,6 +46,8 @@ dependencies:
   screenshot: ^3.0.0
   share_plus: ^10.1.0
   path_provider: ^2.1.5
+  pdf: ^3.12.0
+  printing: ^5.14.3
 
 dev_dependencies:
   flutter_test:
@@ -61,7 +64,7 @@ flutter:
 
   assets:
     - assets/logo_elkarooz.png
-    - assets/data/student_results.xlsx
+    - assets/data/student_result.csv
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
