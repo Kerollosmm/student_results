@@ -65,7 +65,6 @@ class PdfHelper {
               child: pw.Column(
                 children: [
                   pw.Row(
-                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                     children: [
                       pw.Expanded(
                         child: pw.Text(
@@ -76,12 +75,6 @@ class PdfHelper {
                           ),
                           textDirection: pw.TextDirection.rtl,
                         ),
-                      ),
-                      pw.SizedBox(width: 10),
-                      pw.Text(
-                        'رقم الكارنيه: ${student.id}',
-                        style: const pw.TextStyle(fontSize: 16),
-                        textDirection: pw.TextDirection.rtl,
                       ),
                     ],
                   ),
@@ -118,7 +111,9 @@ class PdfHelper {
                 2: const pw.FlexColumnWidth(1),
                 3: const pw.FlexColumnWidth(1),
                 4: const pw.FlexColumnWidth(1),
-                5: const pw.FlexColumnWidth(6), // Increased significantly to prevent truncation
+                5: const pw.FlexColumnWidth(
+                  6,
+                ), // Increased significantly to prevent truncation
               },
               children: [
                 // Header Row

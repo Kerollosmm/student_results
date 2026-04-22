@@ -166,7 +166,6 @@ class ResultsScreen extends StatelessWidget {
                                     iconColor: AppColors.primary,
                                     label: 'اسم الطالب',
                                     value: student.name,
-                                    subValue: 'رقم الكارنيه: ${student.id}',
                                     isMobile: isMobile,
                                   ),
                                 ),
@@ -247,8 +246,9 @@ class ResultsScreen extends StatelessWidget {
                                       child: DataTable(
                                         headingRowColor:
                                             WidgetStateProperty.all(
-                                              AppColors.surfaceLight
-                                                  .withValues(alpha: 0.5),
+                                              AppColors.surfaceLight.withValues(
+                                                alpha: 0.5,
+                                              ),
                                             ),
                                         dataRowMinHeight: 65,
                                         dataRowMaxHeight: 65,
