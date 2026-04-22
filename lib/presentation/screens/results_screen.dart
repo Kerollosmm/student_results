@@ -8,11 +8,32 @@ import 'package:e3dad_5odam/presentation/cubit/student_results_state.dart';
 import 'package:e3dad_5odam/presentation/theme/app_colors.dart';
 import 'package:e3dad_5odam/presentation/utils/pdf_helper.dart';
 
-class ResultsScreen extends StatelessWidget {
+class ResultsScreen extends StatefulWidget {
   const ResultsScreen({super.key});
 
-  void _handlePrint(StudentResult student) {
-    PdfHelper.generateAndPrint(student);
+  @override
+  State<ResultsScreen> createState() => _ResultsScreenState();
+}
+
+class _ResultsScreenState extends State<ResultsScreen> {
+  bool _isGeneratingPdf = false;
+
+  Future<void> _handlePrint(StudentResult student) async {
+    if (_isGeneratingPdf) return;
+
+    setState(() {
+      _isGeneratingPdf = true;
+    });
+
+    try {
+      await PdfHelper.generateAndPrint(student);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isGeneratingPdf = false;
+        });
+      }
+    }
   }
 
   @override
@@ -115,12 +136,33 @@ class ResultsScreen extends StatelessWidget {
                                 ),
                               ),
                               ElevatedButton.icon(
-                                onPressed: () => _handlePrint(student),
-                                icon: const Icon(Icons.print, size: 20),
-                                label: const Text('تصدير PDF'),
+                                onPressed: _isGeneratingPdf
+                                    ? null
+                                    : () => _handlePrint(student),
+                                icon: _isGeneratingPdf
+                                    ? const SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                Colors.white,
+                                              ),
+                                        ),
+                                      )
+                                    : const Icon(Icons.print, size: 20),
+                                label: Text(
+                                  _isGeneratingPdf
+                                      ? 'جاري التحميل...'
+                                      : 'تصدير PDF',
+                                ),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primary,
                                   foregroundColor: Colors.white,
+                                  disabledBackgroundColor: AppColors.primary
+                                      .withValues(alpha: 0.7),
+                                  disabledForegroundColor: Colors.white,
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 24,
                                     vertical: 14,
