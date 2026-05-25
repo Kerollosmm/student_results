@@ -8,9 +8,9 @@ class PdfHelper {
   static Future<void> generateAndPrint(StudentResult student) async {
     final pdf = pw.Document();
 
-    // Load Arabic font (using Almarai instead of Cairo to prevent clipping of final 'ي')
-    final arabicFont = await PdfGoogleFonts.almaraiRegular();
-    final arabicFontBold = await PdfGoogleFonts.almaraiBold();
+    // Load Arabic font (using Cairo which has better support for isolated final characters)
+    final arabicFont = await PdfGoogleFonts.cairoRegular();
+    final arabicFontBold = await PdfGoogleFonts.cairoBold();
 
     // Load logo if available
     pw.MemoryImage? logo;
@@ -114,11 +114,11 @@ class PdfHelper {
               border: pw.TableBorder.all(color: PdfColors.grey400),
               columnWidths: {
                 0: const pw.FlexColumnWidth(2),
-                1: const pw.FlexColumnWidth(1.2),
-                2: const pw.FlexColumnWidth(1),
-                3: const pw.FlexColumnWidth(1),
-                4: const pw.FlexColumnWidth(1),
-                5: const pw.FlexColumnWidth(6), // Increased significantly to prevent truncation
+                1: const pw.FlexColumnWidth(1.5),
+                2: const pw.FlexColumnWidth(1.5),
+                3: const pw.FlexColumnWidth(1.5),
+                4: const pw.FlexColumnWidth(1.2),
+                5: const pw.FlexColumnWidth(4.5),
               },
               children: [
                 // Header Row
@@ -206,7 +206,7 @@ class PdfHelper {
     return pw.Padding(
       padding: const pw.EdgeInsets.all(5),
       child: pw.Text(
-        text,
+        text + '\u00A0', // Add trailing non-breaking space to prevent clipping in PDF
         style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
         textAlign: pw.TextAlign.center,
       ),
@@ -240,7 +240,7 @@ class PdfHelper {
           ? pw.Alignment.centerRight
           : pw.Alignment.center,
       child: pw.Text(
-        text,
+        text + '\u00A0', // Add trailing non-breaking space to prevent clipping in PDF
         textAlign: align,
         textDirection: pw.TextDirection.rtl,
         style: pw.TextStyle(

@@ -11,8 +11,50 @@ import 'package:e3dad_5odam/presentation/utils/pdf_helper.dart';
 class ResultsScreen extends StatelessWidget {
   const ResultsScreen({super.key});
 
-  void _handlePrint(StudentResult student) {
-    PdfHelper.generateAndPrint(student);
+  void _handlePrint(BuildContext context, StudentResult student) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: Card(
+          margin: EdgeInsets.all(24),
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'جاري تجهيز ملف PDF...',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textDark,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    try {
+      await PdfHelper.generateAndPrint(student);
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('حدث خطأ أثناء تصدير الملف: $e')),
+        );
+      }
+    } finally {
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+    }
   }
 
   @override
@@ -115,7 +157,7 @@ class ResultsScreen extends StatelessWidget {
                                 ),
                               ),
                               ElevatedButton.icon(
-                                onPressed: () => _handlePrint(student),
+                                onPressed: () => _handlePrint(context, student),
                                 icon: const Icon(Icons.print, size: 20),
                                 label: const Text('تصدير PDF'),
                                 style: ElevatedButton.styleFrom(
