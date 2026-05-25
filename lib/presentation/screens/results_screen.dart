@@ -166,7 +166,6 @@ class ResultsScreen extends StatelessWidget {
                                     iconColor: AppColors.primary,
                                     label: 'اسم الطالب',
                                     value: student.name,
-                                    subValue: 'رقم الكارنيه: ${student.id}',
                                     isMobile: isMobile,
                                   ),
                                 ),
