@@ -35,6 +35,8 @@ import 'package:e3dad_5odam/domain/models/subject.dart';
 //  28 : العهد القديم - التقدير
 //  29 : النتيجة الكلية - درجات
 //  30 : النتيجة الكلية - تقدير
+//  31 : username
+//  32 : password
 
 class ExcelRepository {
   List<StudentResult>? _cachedStudents;
@@ -47,7 +49,9 @@ class ExcelRepository {
         'assets/data/student_result.csv',
       );
 
-      final List<List<dynamic>> rows = const CsvToListConverter().convert(
+      final List<List<dynamic>> rows = const CsvToListConverter(
+        shouldParseNumbers: false,
+      ).convert(
         csvString,
         eol: '\n',
       );
@@ -101,6 +105,8 @@ class ExcelRepository {
 
         final totalScore = cell(row, 29);
         final totalGrade = cell(row, 30);
+        final username = cell(row, 31);
+        final password = cell(row, 32);
 
         students.add(
           StudentResult(
@@ -110,23 +116,18 @@ class ExcelRepository {
             subjects: subjects,
             totalScore: totalScore,
             totalGrade: totalGrade,
+            username: username,
+            password: password,
           ),
         );
       }
 
       _cachedStudents = students;
       return students;
-    } catch (e) {
-      return [
-        StudentResult(
-          id: 'ERROR',
-          name: 'خطأ في قراءة الملف: $e',
-          stage: 'Error',
-          subjects: [],
-          totalScore: '-',
-          totalGrade: '-',
-        ),
-      ];
+    } catch (e, st) {
+      // ignore: avoid_print
+      print('getStudents error: $e\n$st');
+      rethrow;
     }
   }
 }

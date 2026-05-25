@@ -19,16 +19,20 @@ class StudentResultsCubit extends Cubit<StudentResultsState> {
     }
   }
 
-  void login(String id) async {
+  Future<void> login(String username, String password) async {
     emit(StudentResultsLoading());
     try {
       final students = await _repository.getStudents();
-      final student = students.where((s) => s.id == id.trim()).firstOrNull;
+      final student = students.where(
+        (s) =>
+            s.username.toLowerCase() == username.trim().toLowerCase() &&
+            s.password == password.trim(),
+      ).firstOrNull;
 
       if (student != null) {
         emit(StudentLoggedIn(student));
       } else {
-        emit(StudentResultsError('رقم الكارنيه غير صحيح أو غير موجود'));
+        emit(StudentResultsError('اسم المستخدم أو كلمة المرور غير صحيح'));
       }
     } catch (e, st) {
       // ignore: avoid_print
@@ -37,7 +41,7 @@ class StudentResultsCubit extends Cubit<StudentResultsState> {
     }
   }
 
-  void logout() async {
+  Future<void> logout() async {
     try {
       final students = await _repository.getStudents();
       emit(StudentResultsLoaded(students));
