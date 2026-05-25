@@ -140,41 +140,6 @@ class ResultsScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 24),
 
-                          // Note Card (Appears only on UI, not exported to PDF)
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.08),
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: AppColors.primary.withValues(alpha: 0.2),
-                                width: 1,
-                              ),
-                            ),
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.info_outline,
-                                  color: AppColors.primary,
-                                  size: 24,
-                                ),
-                                SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    'ملحوظة: الطالب الذي رسب في مادة أو اثنين هو ناجح بشرط امتحان هذه المواد مرة أخرى في الصيف والنجاح فيها',
-                                    style: TextStyle(
-                                      color: AppColors.textDark,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-
                           // Student Info Card
                           Container(
                             padding: EdgeInsets.all(isMobile ? 20 : 32),
@@ -408,6 +373,41 @@ class ResultsScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+
+                          // Note Card (Appears only on UI, not exported to PDF)
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: AppColors.primary.withValues(alpha: 0.2),
+                                width: 1,
+                              ),
+                            ),
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  color: AppColors.primary,
+                                  size: 24,
+                                ),
+                                SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    'ملحوظة: الطالب الذي رسب في مادة أو اثنين هو ناجح بشرط امتحان هذه المواد مرة أخرى في الصيف والنجاح فيها',
+                                    style: TextStyle(
+                                      color: AppColors.textDark,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.5,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
