@@ -100,7 +100,10 @@ class ExcelRepository {
         ];
 
         final totalScore = cell(row, 29);
-        final totalGrade = cell(row, 30);
+        var totalGrade = cell(row, 30);
+        if (totalGrade == '-' || totalGrade.isEmpty) {
+          totalGrade = StudentResult.computeGrade(totalScore);
+        }
         final username = cell(row, 31);
         final password = cell(row, 32);
 

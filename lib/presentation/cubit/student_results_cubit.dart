@@ -19,18 +19,18 @@ class StudentResultsCubit extends Cubit<StudentResultsState> {
     }
   }
 
-  void login(String username, String password) async {
+  void login(String password) async {
     emit(StudentResultsLoading());
     try {
       final students = await _repository.getStudents();
       final student = students
-          .where((s) => s.username == username.trim() && s.password == password)
+          .where((s) => s.password == password)
           .firstOrNull;
 
       if (student != null) {
         emit(StudentLoggedIn(student));
       } else {
-        emit(StudentResultsError('إسم المستخدم أو كلمة المرور غير صحيحة'));
+        emit(StudentResultsError('كلمة المرور غير صحيحة'));
       }
     } catch (e, st) {
       // ignore: avoid_print

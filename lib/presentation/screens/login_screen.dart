@@ -13,12 +13,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -109,57 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Text(
-                              'اسم المستخدم',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textDark,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              controller: _usernameController,
-                              textAlign: TextAlign.right,
-                              textDirection: TextDirection.ltr,
-                              decoration: InputDecoration(
-                                hintText: 'أدخل اسم المستخدم',
-                                hintStyle: const TextStyle(
-                                  color: Colors.black38,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 16,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.border,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.border,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.primary,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              onSubmitted: (_) {
-                                context.read<StudentResultsCubit>().login(
-                                  _usernameController.text,
-                                  _passwordController.text,
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 16),
-
-                            const Text(
                               'كلمة المرور',
                               style: TextStyle(
                                 fontSize: 14,
@@ -204,7 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onSubmitted: (_) {
                                 context.read<StudentResultsCubit>().login(
-                                  _usernameController.text,
                                   _passwordController.text,
                                 );
                               },
@@ -246,23 +192,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: state is StudentResultsLoading
                                   ? null
                                   : () {
-                                      if (_usernameController.text
-                                              .trim()
-                                              .isEmpty ||
-                                          _passwordController.text.isEmpty) {
+                                      if (_passwordController.text.isEmpty) {
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                              'يرجى إدخال اسم المستخدم وكلمة المرور',
+                                              'يرجى إدخال كلمة المرور',
                                             ),
                                           ),
                                         );
                                         return;
                                       }
                                       context.read<StudentResultsCubit>().login(
-                                        _usernameController.text,
                                         _passwordController.text,
                                       );
                                     },
