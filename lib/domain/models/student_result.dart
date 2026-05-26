@@ -16,10 +16,10 @@ class StudentResult {
     required this.stage,
     required this.subjects,
     required this.totalScore,
-    required String totalGrade,
+    required this.totalGrade,
     required this.username,
     required this.password,
-  }) : totalGrade = _calculateTotalGrade(subjects, totalScore, totalGrade);
+  });
 
   static String _calculateTotalGrade(
     List<Subject> subjects,

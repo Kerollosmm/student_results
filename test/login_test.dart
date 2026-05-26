@@ -32,8 +32,8 @@ void main() {
     expect(cubit.state, isA<StudentLoggedIn>());
   });
 
-  group('StudentResult Grading Recalculation Tests', () {
-    test('Failing 3 or more subjects makes student fail overall (راسب) regardless of total percentage score', () {
+  group('StudentResult Grading Tests', () {
+    test('Uses the original totalGrade passed directly', () {
       final student = StudentResult(
         id: '1',
         name: 'Test Student',
@@ -45,16 +45,16 @@ void main() {
           Subject(name: 'S4', attendance: '10', exam: '10', totalScore: '20', percentage: '20%', grade: 'راسب'),
           Subject(name: 'S5', attendance: '10', exam: '10', totalScore: '20', percentage: '20%', grade: 'راسب'),
         ],
-        totalScore: '55', // Above 50%, but failed 3 subjects
-        totalGrade: 'مقبول', // Original grade in CSV
+        totalScore: '55',
+        totalGrade: 'مقبول',
         username: 'user',
         password: 'pwd',
       );
 
-      expect(student.totalGrade, 'راسب');
+      expect(student.totalGrade, 'مقبول');
     });
 
-    test('Passing 3 or more subjects calculates the correct grade based on total percentage score', () {
+    test('Uses the original totalGrade passed directly for passing case', () {
       final studentGood = StudentResult(
         id: '2',
         name: 'Test Student 2',
@@ -66,8 +66,8 @@ void main() {
           Subject(name: 'S4', attendance: '10', exam: '10', totalScore: '20', percentage: '20%', grade: 'راسب'),
           Subject(name: 'S5', attendance: '10', exam: '10', totalScore: '20', percentage: '20%', grade: 'راسب'),
         ],
-        totalScore: '70', // Passed 3 subjects, score is 70% (جيد)
-        totalGrade: 'مقبول', // Original grade in CSV
+        totalScore: '70',
+        totalGrade: 'جيد',
         username: 'user',
         password: 'pwd',
       );

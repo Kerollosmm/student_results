@@ -5,38 +5,35 @@ import 'package:e3dad_5odam/domain/models/subject.dart';
 
 // CSV column layout (0-indexed):
 //  0  : م
-//  1  : رقم الكارنيه
-//  2  : إسم الطالب
-//  3  : المرحلة
-//  4  : لاهوت العقيدي - حضور
-//  5  : لاهوت العقيدي - إمتحان
-//  6  : لاهوت العقيدي - إجمالي (درجات)
-//  7  : لاهوت العقيدي - إجمالي (نسبة مئوية)
-//  8  : لاهوت العقيدي - التقدير
-//  9  : التربوي - حضور
-//  10 : التربوي - إمتحان
-//  11 : التربوي - إجمالي (درجات)
-//  12 : التربوي - إجمالي (نسبة مئوية)
-//  13 : التربوي - التقدير
-//  14 : لاهوت الطقسي - حضور
-//  15 : لاهوت الطقسي - إمتحان
-//  16 : لاهوت الطقسي - إجمالي (درجات)
-//  17 : لاهوت الطقسي - إجمالي (نسبة مئوية)
-//  18 : لاهوت الطقسي - التقدير
-//  19 : العهد الجديد - حضور
-//  20 : العهد الجديد - إمتحان
-//  21 : العهد الجديد - إجمالي (درجات)
-//  22 : العهد الجديد - إجمالي (نسبة مئوية)
-//  23 : العهد الجديد - التقدير
-//  24 : العهد القديم - حضور
-//  25 : العهد القديم - إمتحان
-//  26 : العهد القديم - إجمالي (درجات)
-//  27 : العهد القديم - إجمالي (نسبة مئوية)
-//  28 : العهد القديم - التقدير
-//  29 : النتيجة الكلية - درجات
-//  30 : النتيجة الكلية - تقدير
-//  31 : username
-//  32 : password
+//  1  : إسم الطالب
+//  2  : المرحلة
+//  3  : لاهوت العقيدي - حضور
+//  4  : لاهوت العقيدي - إمتحان
+//  5  : لاهوت العقيدي - إجمالي (درجات)
+//  6  : لاهوت العقيدي - التقدير
+//  7  : التربوي - حضور
+//  8  : التربوي - إمتحان
+//  9  : التربوي - إجمالي (درجات)
+//  10 : التربوي - التقدير
+//  11 : لاهوت الطقسي - حضور
+//  12 : لاهوت الطقسي - إمتحان
+//  13 : لاهوت الطقسي - إجمالي (درجات)
+//  14 : لاهوت الطقسي - التقدير
+//  15 : العهد الجديد - حضور
+//  16 : العهد الجديد - إمتحان
+//  17 : العهد الجديد - إجمالي (درجات)
+//  18 : العهد الجديد - التقدير
+//  19 : العهد القديم - حضور
+//  20 : العهد القديم - إمتحان
+//  21 : العهد القديم - إجمالي (درجات)
+//  22 : العهد القديم - التقدير
+//  23 : النتيجة الكلية - المجموع الكلي
+//  24 : النتيجة الكلية - النسبة المئوية
+//  25 : النتيجة الكلية - تقدير
+//  26 : username
+//  27 : password
+//  28 : عدد مواد الرسوب
+//  29 : عدد مواد النجاح
 
 class ExcelRepository {
   List<StudentResult>? _cachedStudents;
@@ -66,16 +63,17 @@ class ExcelRepository {
         return s.isEmpty ? '-' : s;
       }
 
-      // Each subject occupies 5 consecutive columns starting at [startCol]:
-      //  +0 حضور | +1 إمتحان | +2 إجمالي درجات | +3 نسبة | +4 تقدير
+      // Each subject occupies 4 consecutive columns starting at [startCol]:
+      //  +0 حضور | +1 إمتحان | +2 إجمالي درجات | +3 تقدير
       Subject parseSubject(List<dynamic> row, String name, int startCol) {
+        final total = cell(row, startCol + 2);
         return Subject(
           name: name,
           attendance: cell(row, startCol),
           exam: cell(row, startCol + 1),
-          totalScore: cell(row, startCol + 2),
-          percentage: cell(row, startCol + 3),
-          grade: cell(row, startCol + 4),
+          totalScore: total,
+          percentage: total,
+          grade: cell(row, startCol + 3),
         );
       }
 
@@ -91,22 +89,22 @@ class ExcelRepository {
           continue;
         }
 
-        final id = cell(row, 1);
-        final name = cell(row, 2);
-        final stage = cell(row, 3);
+        final id = cell(row, 0);
+        final name = cell(row, 1);
+        final stage = cell(row, 2);
 
         final subjects = [
-          parseSubject(row, 'لاهوت عقيدي', 4),
-          parseSubject(row, 'التربوي', 9),
-          parseSubject(row, 'لاهوت الطقسي', 14),
-          parseSubject(row, 'العهد الجديد', 19),
-          parseSubject(row, 'العهد القديم', 24),
+          parseSubject(row, 'لاهوت عقيدي', 3),
+          parseSubject(row, 'التربوي', 7),
+          parseSubject(row, 'لاهوت الطقسي', 11),
+          parseSubject(row, 'العهد الجديد', 15),
+          parseSubject(row, 'العهد القديم', 19),
         ];
 
-        final totalScore = cell(row, 29);
-        final totalGrade = cell(row, 30);
-        final username = cell(row, 31);
-        final password = cell(row, 32);
+        final totalScore = cell(row, 24);
+        final totalGrade = cell(row, 25);
+        final username = cell(row, 26);
+        final password = cell(row, 27);
 
         students.add(
           StudentResult(
