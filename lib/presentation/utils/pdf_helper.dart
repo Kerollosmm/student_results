@@ -8,6 +8,9 @@ class PdfHelper {
   static Future<void> generateAndPrint(StudentResult student) async {
     final pdf = pw.Document();
 
+    final failedSubjectsCount = student.subjects.where((s) => s.grade.contains('راسب')).length;
+    final passedSubjectsCount = student.subjects.length - failedSubjectsCount;
+
     // Load Arabic font (using Cairo which has better support for isolated final characters)
     final arabicFont = await PdfGoogleFonts.cairoRegular();
     final arabicFontBold = await PdfGoogleFonts.cairoBold();
@@ -92,6 +95,53 @@ class PdfHelper {
                   ),
                 ],
               ),
+            ),
+            pw.SizedBox(height: 20),
+
+            // Statistics (Passed/Failed)
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+              children: [
+                pw.Expanded(
+                  child: pw.Container(
+                    padding: const pw.EdgeInsets.all(10),
+                    decoration: pw.BoxDecoration(
+                      color: PdfColor.fromInt(0xFFECFDF5), // passBg
+                      border: pw.Border.all(color: PdfColor.fromInt(0xFFA7F3D0)),
+                      borderRadius: const pw.BorderRadius.all(pw.Radius.circular(6)),
+                    ),
+                    alignment: pw.Alignment.center,
+                    child: pw.Text(
+                      'المواد الناجحة: $passedSubjectsCount',
+                      style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColor.fromInt(0xFF047857), // passText
+                      ),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                  ),
+                ),
+                pw.SizedBox(width: 20),
+                pw.Expanded(
+                  child: pw.Container(
+                    padding: const pw.EdgeInsets.all(10),
+                    decoration: pw.BoxDecoration(
+                      color: PdfColor.fromInt(0xFFFEF2F2), // failBg
+                      border: pw.Border.all(color: PdfColor.fromInt(0xFFFCA5A5)),
+                      borderRadius: const pw.BorderRadius.all(pw.Radius.circular(6)),
+                    ),
+                    alignment: pw.Alignment.center,
+                    child: pw.Text(
+                      'المواد الراسبة: $failedSubjectsCount',
+                      style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColor.fromInt(0xFFB91C1C), // failText
+                      ),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                  ),
+                ),
+              ],
             ),
             pw.SizedBox(height: 20),
 

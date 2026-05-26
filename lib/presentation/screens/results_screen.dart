@@ -74,6 +74,8 @@ class ResultsScreen extends StatelessWidget {
           }
 
           final student = state.student;
+          final failedSubjectsCount = student.subjects.where((s) => s.grade.contains('راسب')).length;
+          final passedSubjectsCount = student.subjects.length - failedSubjectsCount;
 
           return Scaffold(
             backgroundColor: AppColors.background,
@@ -223,6 +225,48 @@ class ResultsScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                          ),
+                          const SizedBox(height: 32),
+
+                          // Stats Cards
+                          Builder(
+                            builder: (context) {
+                              final passedCard = _buildStatCard(
+                                title: 'المواد الناجحة',
+                                value: passedSubjectsCount.toString(),
+                                icon: Icons.check_circle_outline_rounded,
+                                color: AppColors.passText,
+                                bgColor: AppColors.passBg,
+                                isMobile: isMobile,
+                              );
+
+                              final failedCard = _buildStatCard(
+                                title: 'المواد الراسبة',
+                                value: failedSubjectsCount.toString(),
+                                icon: Icons.cancel_outlined,
+                                color: AppColors.failText,
+                                bgColor: AppColors.failBg,
+                                isMobile: isMobile,
+                              );
+
+                              if (isMobile) {
+                                return Column(
+                                  children: [
+                                    passedCard,
+                                    const SizedBox(height: 16),
+                                    failedCard,
+                                  ],
+                                );
+                              }
+
+                              return Row(
+                                children: [
+                                  Expanded(child: passedCard),
+                                  const SizedBox(width: 16),
+                                  Expanded(child: failedCard),
+                                ],
+                              );
+                            },
                           ),
                           const SizedBox(height: 32),
 
@@ -535,6 +579,73 @@ class ResultsScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildStatCard({
+    required String title,
+    required String value,
+    required IconData icon,
+    required Color color,
+    required Color bgColor,
+    required bool isMobile,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(isMobile ? 10 : 14),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Icon(
+              icon,
+              color: color,
+              size: isMobile ? 22 : 28,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: isMobile ? 13 : 14,
+                    color: AppColors.textDark.withValues(alpha: 0.6),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: isMobile ? 24 : 28,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
